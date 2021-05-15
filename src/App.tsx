@@ -12,6 +12,7 @@ import { Tab } from './components/Tab';
 import { Upload } from './components/Upload';
 import { UserInfo } from './components/UserInfo';
 import UniqueCreator from './abis/UniqueCreator.json';
+import { Context } from './context';
 
 async function loadWeb3() {
   if (window.ethereum) {
@@ -81,11 +82,13 @@ function App() {
   ]);
 
   return (
-    <div className="App">
-      <UserInfo></UserInfo>
+    <Context.Provider value={{}}>
+      <div className="App">
+        <UserInfo></UserInfo>
 
-      <Tab tabList={tabList}></Tab>
-    </div>
+        <Tab tabList={tabList}></Tab>
+      </div>
+    </Context.Provider>
   );
 }
 

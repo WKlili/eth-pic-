@@ -40,5 +40,7 @@ export function Upload(props: UploadProps) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       data: e.target.files[0] as string
     });
+
+    console.log('uploadedFile', uploadedFile);
   }
 }

@@ -27,10 +27,22 @@ async function loadWeb3() {
   }
 }
 
+export interface IFile {
+  md5: string;
+  address: string;
+  url: string;
+}
+export interface IBlockData {
+  account: string;
+  totalSupply: number;
+  files: IFile[];
+  contract: any;
+}
+
 function App() {
   const [account, setAccount] = useState('');
   const [totalSupply, setTotalSupply] = useState(0);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<IFile[]>([]);
   const [contract, setContract] = useState(null);
 
   const loadBlockchainData = useCallback(async () => {
@@ -48,8 +60,8 @@ function App() {
       setTotalSupply(totalSupply);
       const result = [];
       for (let i = 0; i < totalSupply; i++) {
-        const color = await contract.methods.files(i).call();
-        result.push(color);
+        const file = await contract.methods.files(i).call();
+        result.push(file);
       }
       setFiles(result);
       setContract(contract);
@@ -82,7 +94,7 @@ function App() {
   ]);
 
   return (
-    <Context.Provider value={{}}>
+    <Context.Provider value={{ account, totalSupply, files, contract }}>
       <div className="App">
         <UserInfo></UserInfo>
 

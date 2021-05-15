@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { Waterfall } from '../Waterfall';
 
 import styles from './Public.module.css';
+import { Context } from '../../context';
+import { IBlockData, IFile } from '../../App';
 
 interface PublicProps {
   classname?: string;
@@ -24,8 +26,21 @@ const imgList = [
 ];
 
 export function Public(props: PublicProps) {
+  const value = React.useContext(Context) as IBlockData;
   const {} = props;
   // get data from web3
+
+  const imgList = useMemo(() => {
+    console.log(value.files); // ccc-log
+    // return value.files.map((file) => {
+    //   return {
+    //     id: file.md5,
+    //     src: file.url
+    //   };
+    // });
+
+    return [];
+  }, [value.files]);
 
   return (
     <div className={cn(styles.Public)}>

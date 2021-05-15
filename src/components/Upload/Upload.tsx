@@ -6,13 +6,16 @@ import fleekStorage from '@fleekhq/fleek-storage-js';
 import { v4 } from 'uuid';
 import SparkMD5 from 'spark-md5';
 import cn from 'classnames';
+import { Context } from '../../context';
 
 import styles from './Upload.module.css';
+import { IBlockData } from '../../App';
 interface UploadProps {
   classname?: string;
 }
 
 export function Upload(props: UploadProps) {
+  const value = React.useContext(Context) as IBlockData;
   const {} = props;
 
   return (
@@ -44,8 +47,6 @@ export function Upload(props: UploadProps) {
     spark.append(file);
     const hexHash = spark.end();
 
-    console.log(hexHash);
-
     try {
       const uploadedFile = await fleekStorage.upload({
         apiKey: 'O8kkDM1CU2Ry8mLw0neBHA==',
@@ -54,11 +55,13 @@ export function Upload(props: UploadProps) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         data: file
       });
-      console.log('uploadedFile', uploadedFile.publicUrl);
+      console.log({ md5: hexHash, url: uploadedFile.publicUrl }); // ccc-log
+      // mint
+      await value.contract.methods.mint(hexHash, uploadedFile.publicUrl).call();
+
+      console.log('success'); // ccc-log
     } catch (e) {
       console.error(e);
     }
   }
-
-  //   function mint() {}
 }

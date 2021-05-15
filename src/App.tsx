@@ -74,9 +74,10 @@ function App() {
     } else {
       toast.error('Smart contract not deployed to detected network.');
     }
-  }, []);
+  }, [mintStatus]);
 
   useEffect(() => {
+    console.log('refresh'); // ccc-log
     loadWeb3().then(() => {
       loadBlockchainData().then(() => {
         /** ignore */
@@ -99,6 +100,14 @@ function App() {
     }
   ]);
 
+  // console.log({
+  //   account,
+  //   totalSupply,
+  //   files,
+  //   contract,
+  //   mintStatus,
+  //   setMintStatus
+  // }); // ccc-log
   return (
     <Context.Provider
       value={{

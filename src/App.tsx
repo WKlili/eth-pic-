@@ -5,6 +5,8 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Personal } from './components/Personal';
 import { Public } from './components/Public';
@@ -21,7 +23,7 @@ async function loadWeb3() {
   } else if (window.web3) {
     window.web3 = new Web3(window.web3.currentProvider);
   } else {
-    window.alert(
+    toast.error(
       'Non-Ethereum browser detected. You should consider trying MetaMask'
     );
   }
@@ -37,6 +39,8 @@ export interface IBlockData {
   totalSupply: number;
   files: IFile[];
   contract: any;
+  mintStatus?: string;
+  setMintStatus?: any;
 }
 
 function App() {
@@ -44,6 +48,8 @@ function App() {
   const [totalSupply, setTotalSupply] = useState(0);
   const [files, setFiles] = useState<IFile[]>([]);
   const [contract, setContract] = useState(null);
+  const [mintStatus, setMintStatus] =
+    useState<'none' | 'padding' | 'success'>('none');
 
   const loadBlockchainData = useCallback(async () => {
     const web3 = window.web3;
@@ -66,7 +72,7 @@ function App() {
       setFiles(result);
       setContract(contract);
     } else {
-      window.alert('Smart contract not deployed to detected network.');
+      toast.error('Smart contract not deployed to detected network.');
     }
   }, []);
 
@@ -94,11 +100,20 @@ function App() {
   ]);
 
   return (
-    <Context.Provider value={{ account, totalSupply, files, contract }}>
+    <Context.Provider
+      value={{
+        account,
+        totalSupply,
+        files,
+        contract,
+        mintStatus,
+        setMintStatus
+      }}>
       <div className="App">
         <UserInfo></UserInfo>
 
         <Tab tabList={tabList}></Tab>
+        <ToastContainer />
       </div>
     </Context.Provider>
   );

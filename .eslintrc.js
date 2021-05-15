@@ -3,7 +3,6 @@ module.exports = {
   parserOptions: {
     project: require.resolve('./tsconfig.json')
   },
-
   rules: {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],

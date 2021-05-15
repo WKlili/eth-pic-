@@ -5,6 +5,7 @@ import { Public } from './components/Public';
 import { Tab } from './components/Tab';
 import { Upload } from './components/Upload';
 import { UserInfo } from './components/UserInfo';
+import { Context } from './context';
 
 function App() {
   const [tabList] = useState([
@@ -23,11 +24,13 @@ function App() {
   ]);
 
   return (
-    <div className="App">
-      <UserInfo></UserInfo>
+    <Context.Provider value={{}}>
+      <div className="App">
+        <UserInfo></UserInfo>
 
-      <Tab tabList={tabList}></Tab>
-    </div>
+        <Tab tabList={tabList}></Tab>
+      </div>
+    </Context.Provider>
   );
 }
 

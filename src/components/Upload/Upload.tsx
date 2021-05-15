@@ -64,16 +64,35 @@ export function Upload(props: UploadProps) {
       });
       console.log({ md5: hexHash, url: uploadedFile.publicUrl }); // ccc-log
       // mint
-      await value.contract.methods
+      value.contract.methods
         .mint(hexHash, uploadedFile.publicUrl)
-        .send({ from: value.account });
+        .send({ from: value.account })
+        .on('transactionHash', function (hash: any) {
+          // ...
+          console.log({ hash }); // ccc-log
+          setLoading(false);
+          value.setMintStatus('success');
+        })
+        .on('receipt', function (receipt: any) {
+          // ...
+          console.log({ receipt }); // ccc-log
+          setLoading(false);
+          value.setMintStatus('success');
+        })
+        .on('confirmation', function (confirmationNumber: any, receipt: any) {
+          // ...
+          console.log({ confirmationNumber, receipt }); // ccc-log
 
-      value.setMintStatus('success');
-
-      console.log('success'); // ccc-log
+          value.setMintStatus('success');
+          setLoading(false);
+        })
+        .on('error', function (error: any, receipt: any) {
+          // ...
+          console.log({ error, receipt }); // ccc-log
+          value.setMintStatus(error.message);
+        });
     } catch (e) {
       toast.error(e);
-    } finally {
       setLoading(false);
     }
   }

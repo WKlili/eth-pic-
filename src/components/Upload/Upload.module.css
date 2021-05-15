@@ -1,0 +1,37 @@
+.Upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploadIcon {
+    width: 32px;
+    height: 32px;
+    margin-top: 20px;
+}
+
+.description {
+    margin-top: 32px;
+    margin-bottom: 30px;
+    font-size: 21px;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+}
+
+.uploadBtn {
+    top: 215px;
+    cursor: pointer;
+    width: 153px;
+    height: 48px;
+    line-height: 48px;
+    background: #0870d1;
+    border-radius: 28px;
+    font-size: 16px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-align: center;
+    color: #fff;
+    left: 50%;
+    font-weight: 700;
+}

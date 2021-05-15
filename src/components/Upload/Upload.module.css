@@ -21,7 +21,6 @@
 }
 
 .uploadBtn {
-    top: 215px;
     cursor: pointer;
     width: 153px;
     height: 48px;
@@ -32,6 +31,14 @@
     font-family: Arial,Helvetica,sans-serif;
     text-align: center;
     color: #fff;
-    left: 50%;
     font-weight: 700;
+    position: relative;
+}
+
+.uploadFile {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
 }

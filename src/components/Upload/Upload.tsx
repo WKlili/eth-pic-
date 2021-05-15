@@ -45,34 +45,36 @@ export function Upload(props: UploadProps) {
     </div>
   );
 
-  async function uploadFile(e: any) {
+  function uploadFile(e: any) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const file = e.target.files[0] as File;
     setLoading(true);
 
-    const spark = new SparkMD5();
-    spark.append(file);
-    const hexHash = spark.end();
+    const fileReader = new FileReader();
+    fileReader.readAsBinaryString(file);
 
-    try {
-      const uploadedFile = await fleekStorage.upload({
-        apiKey: 'O8kkDM1CU2Ry8mLw0neBHA==',
-        apiSecret: '4z1E20GyGN6X0pdywh6jGW4ZVLa+F8J0gVwgOH+2H6s=',
-        key: v4(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        data: file
-      });
-      console.log({ md5: hexHash, url: uploadedFile.publicUrl }); // ccc-log
-      // mint
-      await value.contract.methods.mint(hexHash, uploadedFile.publicUrl).call();
+    fileReader.onload = async (e: any) => {
+      const md5 = SparkMD5.hashBinary(e.target.result);
+      try {
+        const uploadedFile = await fleekStorage.upload({
+          apiKey: 'O8kkDM1CU2Ry8mLw0neBHA==',
+          apiSecret: '4z1E20GyGN6X0pdywh6jGW4ZVLa+F8J0gVwgOH+2H6s=',
+          key: v4(),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          data: file
+        });
+        console.log({ md5: md5, url: uploadedFile.publicUrl }); // ccc-log
+        // mint
+        await value.contract.methods.mint(md5, uploadedFile.publicUrl).call();
 
-      value.setMintStatus('success');
+        value.setMintStatus('success');
 
-      console.log('success'); // ccc-log
-    } catch (e) {
-      toast.error(e);
-    } finally {
-      setLoading(false);
-    }
+        console.log('success'); // ccc-log
+      } catch (e) {
+        toast.error(e);
+      } finally {
+        setLoading(false);
+      }
+    };
   }
 }

@@ -31,15 +31,12 @@ export function Public(props: PublicProps) {
   // get data from web3
 
   const imgList = useMemo(() => {
-    console.log(value.files); // ccc-log
-    // return value.files.map((file) => {
-    //   return {
-    //     id: file.md5,
-    //     src: file.url
-    //   };
-    // });
-
-    return [];
+    return value.files.map((file, index) => {
+      return {
+        id: index,
+        src: file.url
+      };
+    });
   }, [value.files]);
 
   return (

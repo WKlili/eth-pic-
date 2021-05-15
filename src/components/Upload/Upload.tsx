@@ -57,7 +57,9 @@ export function Upload(props: UploadProps) {
       });
       console.log({ md5: hexHash, url: uploadedFile.publicUrl }); // ccc-log
       // mint
-      await value.contract.methods.mint(hexHash, uploadedFile.publicUrl).call();
+      await value.contract.methods
+        .mint(hexHash, uploadedFile.publicUrl)
+        .send({ from: value.account });
 
       console.log('success'); // ccc-log
     } catch (e) {

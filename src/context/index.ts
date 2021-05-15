@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 
-const context = {};
+export enum mintStatus {
+  none = 'none',
+  padding = 'padding',
+  success = 'success'
+}
+
+const context: any = {
+  mintStatus: 'none'
+};
 
 export const Context = React.createContext(context);

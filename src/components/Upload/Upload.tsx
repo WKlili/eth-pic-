@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from 'react';
+import React, { useState } from 'react';
 import fleekStorage from '@fleekhq/fleek-storage-js';
 import { v4 } from 'uuid';
 import SparkMD5 from 'spark-md5';
+import { toast } from 'react-toastify';
 import cn from 'classnames';
 import { Context } from '../../context';
 
 import styles from './Upload.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { IBlockData } from '../../App';
+import { Loading } from '../Loading';
 interface UploadProps {
   classname?: string;
 }
@@ -17,6 +20,7 @@ interface UploadProps {
 export function Upload(props: UploadProps) {
   const value = React.useContext(Context) as IBlockData;
   const {} = props;
+  const [load, setLoading] = useState(false);
 
   return (
     <div className={cn(styles.Upload)}>
@@ -36,12 +40,15 @@ export function Upload(props: UploadProps) {
       </div>
 
       <div className={styles.warning}></div>
+
+      {load && <Loading />}
     </div>
   );
 
   async function uploadFile(e: any) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const file = e.target.files[0] as File;
+    setLoading(true);
 
     const spark = new SparkMD5();
     spark.append(file);
@@ -61,9 +68,13 @@ export function Upload(props: UploadProps) {
         .mint(hexHash, uploadedFile.publicUrl)
         .send({ from: value.account });
 
+      value.setMintStatus('success');
+
       console.log('success'); // ccc-log
     } catch (e) {
-      console.error(e);
+      toast.error(e);
+    } finally {
+      setLoading(false);
     }
   }
 }

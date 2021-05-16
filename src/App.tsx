@@ -33,6 +33,7 @@ export interface IFile {
   md5: string;
   address: string;
   url: string;
+  user: string;
 }
 export interface IBlockData {
   account: string;

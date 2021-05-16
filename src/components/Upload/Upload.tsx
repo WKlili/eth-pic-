@@ -68,7 +68,20 @@ export function Upload(props: UploadProps) {
         value.contract.methods
           .mint(md5, uploadedFile.publicUrl)
           .send({ from: value.account })
+          // .on('transactionHash', function (hash: any) {
+          //   // ...
+          //   console.log({ hash }); // ccc-log
+          //   setLoading(false);
+          //   window.location.reload();
+          // })
           .once('receipt', function (receipt: any) {
+            setLoading(false);
+            window.location.reload();
+          })
+          .on('confirmation', function (confirmationNumber: any, receipt: any) {
+            // ...
+            console.log({ confirmationNumber, receipt }); // ccc-log
+
             setLoading(false);
             window.location.reload();
           })

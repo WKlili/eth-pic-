@@ -1,7 +1,8 @@
 require('babel-register');
 require('babel-polyfill');
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-var mnemonic = 'XXXX'; // MetaMask的助记词。
+var mnemonic =
+  'film index metal kingdom where almost matrix talent execute dove humble fire'; // MetaMask的助记词。
 
 module.exports = {
   networks: {

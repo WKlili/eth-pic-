@@ -15,7 +15,6 @@ export function Personal(props: PersonalProps) {
   const value = React.useContext(Context) as IBlockData;
 
   const imgList = useMemo(() => {
-    console.log(value.files, value.account);
     return value.files
       .filter((item) => item.user === value.account)
       .map((file, index) => {

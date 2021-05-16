@@ -14,7 +14,7 @@ contract UniqueCreator is ERC721 {
     File[] public files;
     mapping(string=> bool) _fileMd5Exist;
 
-    event mintUnique(string _md5);
+    event mintUnique(string indexed _md5, string indexed _url);
 
     constructor() ERC721("UniqueCreator", "UNIQUECREATOR") {
     }
@@ -30,6 +30,7 @@ contract UniqueCreator is ERC721 {
       uint _id = files.length;
       _mint(msg.sender, _id);
       _fileMd5Exist[_md5] = true;
+      emit mintUnique(_md5, _url);
     }
 }
 

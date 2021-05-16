@@ -86,8 +86,8 @@ export function Upload(props: UploadProps) {
             window.location.reload();
           })
           .on('error', function (error: any, receipt: any) {
-            console.log({ error, receipt }); // ccc-log
-            throw new Error(error);
+            setLoading(false);
+            toast.error(error.message);
           });
       } catch (e) {
         toast.error(e);

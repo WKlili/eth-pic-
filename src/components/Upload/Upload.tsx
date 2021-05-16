@@ -68,12 +68,12 @@ export function Upload(props: UploadProps) {
         value.contract.methods
           .mint(md5, uploadedFile.publicUrl)
           .send({ from: value.account })
-          // .on('transactionHash', function (hash: any) {
-          //   // ...
-          //   console.log({ hash }); // ccc-log
-          //   setLoading(false);
-          //   window.location.reload();
-          // })
+          .on('transactionHash', function (hash: any) {
+            // ...
+            console.log({ hash }); // ccc-log
+            // setLoading(false);
+            // window.location.reload();
+          })
           .once('receipt', function (receipt: any) {
             setLoading(false);
             window.location.reload();
@@ -86,6 +86,7 @@ export function Upload(props: UploadProps) {
             window.location.reload();
           })
           .on('error', function (error: any, receipt: any) {
+            console.log({ error }); // ccc-log
             setLoading(false);
             toast.error(error.message);
           });
